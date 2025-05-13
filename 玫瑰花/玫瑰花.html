@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>给杨云欣的玫瑰花</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #11a6f0;
+            font-size: 2.5rem;
+            font-family: "华文彩云", sans-serif;
+            animation: pulse 1.5s infinite;
+            text-align: center;
+            z-index: 1;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .tap-hint {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 背景视频 -->
+    <video class="video-background" autoplay muted loop playsinline>
+        <source src="flower.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- 背景音乐 -->
+    <audio id="music1" loop preload="auto" controls hidden>
+        <source src="http://music.163.com/song/media/outer/url?id=2686588663.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- 页面内容 -->
+    <div class="content">
+        <h1>杨</h1>
+        <h1>云</h1>
+        <h1>欣</h1>
+    </div>
+
+    <div class="tap-hint">点击屏幕播放音乐</div>
+
+    <script>
+        // 自动播放音乐处理（微信限制）
+        document.addEventListener('DOMContentLoaded', function () {
+            var audio = document.getElementById('music1');
+
+            // 微信需要用户交互后才能播放音频
+            document.body.addEventListener('touchstart', function () {
+                audio.play().catch(e => {
+                    console.log('自动播放被阻止:', e);
+                    document.querySelector('.tap-hint').textContent = '点击播放音乐';
+                });
+            });
+
+            // 点击暂停/播放切换
+            document.body.addEventListener('click', function () {
+                if (audio.paused) {
+                    audio.play();
+                } else {
+                    audio.pause();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
